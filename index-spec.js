@@ -58,7 +58,7 @@ describe("The test of an E-Commerce Application", () => {
     });
   };
 
-  fit("Clicks on Shop Link", done => {
+  fit("Clicks on Shop Link", () => {
     fillTheForm("Vivek", "vr329@njit.edu", "password", "Female", 0);
     // emptyValues(email, " ");
     element(by.linkText("Shop")).click();
@@ -71,10 +71,10 @@ describe("The test of an E-Commerce Application", () => {
     element(by.partialLinkText("Checkout"))
       .getText()
       .then(text => {
-        // console.log(text);
+        console.log(text);
         const res = text.split("(");
         console.log(res);
-        // expect(parseInt(res[1].trim().charAt(0))).toBe(3);
+        expect(parseInt(res[1].trim().charAt(0))).toBe(3);
       });
     //nav-link btn btn-primary
 
@@ -98,10 +98,20 @@ describe("The test of an E-Commerce Application", () => {
 
     element(by.tagName("tbody"))
       .all(by.tagName("tr"))
-      .each(item => item.element(by.css("td:nth-child(4)")))
+      .each((item, i) => {
+        item
+          .element(by.css("td:nth-child(4)"))
+          .getText()
+          .then(val => {
+            if (val === "Total") return;
+            if (val === "Continue Shopping") return;
+            if (arr[i] === val) return;
+            arr.unshift(val);
+            console.log(arr);
+          });
+      });
 
-      .getText()
-      .then(val => console.log(val));
+    // console.log(res);
 
     // console.log(abcd);
     // console.log(typeof val);
